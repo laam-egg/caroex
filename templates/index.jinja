@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>Tic Tac Toe Game</title>
+  </head>
+  <body>
+    <h1>Experiments: {{ experimentSetName|e }}</h1>
+
+    <br>
+    <h2>Stats</h2>
+    <div>
+        <p><b>Total number of games played: </b>{{ numMatches }}<p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Player</th>
+                    <th>Total wins</th>
+                    <th>Average time per move</th>
+                    <th>Total wins as first player</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for playerName in players %}
+                    <tr>
+                        <td>{{ playerName|e }}</td>
+                        <td>{{ players[playerName]["total_wins"] }} ({{ ((players[playerName]["total_wins"] / numMatches * 10000)|round) / 100 }}&#37;)</td>
+                        <td>{{ players[playerName]["total_time"] / players[playerName]["total_moves"] }} seconds</td>
+                        <td>{{ players[playerName]["total_wins_as_first_player"] }} ({{ 0.0 if players[playerName]["num_matches_as_first_player"] == 0 else ((players[playerName]["total_wins_as_first_player"] / players[playerName]["num_matches_as_first_player"] * 10000)|round) / 100 }}&#37;)</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <br>
+
+    <h2>Games</h2>
+    <div style="display: flex; flex-direction: column">
+        <a href="all-matches.html">View all matches at once</a>
+        {% for i in range(numMatches) %}
+            <a href="match-{{ i+1 }}.html">Match &#35;{{ i+1 }}</a>
+        {% endfor %}
+    </div>
+  </body>
+</html>
